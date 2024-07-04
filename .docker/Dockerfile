@@ -42,10 +42,15 @@ ENV MAMBA_USER_GID=$MAMBA_USER_GID
 RUN addgroup --gid $MAMBA_USER_GID $MAMBA_USER && \
     adduser --uid $MAMBA_USER_ID --gid $MAMBA_USER_GID --disabled-password --gecos "" $MAMBA_USER
 
-    # Set up conda environment
-    RUN mkdir -p $MAMBA_ROOT_PREFIX && micromamba shell init -s bash -p $MAMBA_ROOT_PREFIX
+
+RUN mkdir -p $MAMBA_ROOT_PREFIX && \
+    $MAMBA_EXE create -y -p $MAMBA_ROOT_PREFIX/env && \
+    $MAMBA_EXE install -y -p $MAMBA_ROOT_PREFIX/env -c conda-forge python=3.9 && \
+    $MAMBA_EXE clean --all --yes
 
 USER $MAMBA_USER
+
+
 
 
 ENV PATH=$MAMBA_ROOT_PREFIX/bin:$PATH
