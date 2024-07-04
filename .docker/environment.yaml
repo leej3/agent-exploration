@@ -18,14 +18,12 @@ dependencies:
   - decorator
   - defusedxml
   - ipykernel
-  - ipython
-  - jinja2
   - jsonschema
   - jupyterlab
-  - langchain=0.2.6
-  - langchain-core=0.2.11
+  - langchain
+  - langchain-core
   - langchain-experimental
-  - langchain-openai=0.1.14
+  - langchain-openai
   - langsmith
   - numpy
   - openai
