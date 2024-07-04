@@ -1,4 +1,5 @@
 #!/bin/bash
-source ${MAMBA_ROOT_PREFIX}/etc/profile.d/conda.sh
-conda activate ${ENV_NAME}
+eval "$(${MAMBA_EXE} shell hook --shell bash)"
+micromamba activate ${MAMBA_ROOT_PREFIX}/env
 exec "\$@"
+
