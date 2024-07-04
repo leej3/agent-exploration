@@ -4,12 +4,11 @@ FROM mcr.microsoft.com/playwright:v1.45.1-noble
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV ENV_NAME="base"
 ENV MAMBA_ROOT_PREFIX="/opt/conda"
-ENV MAMBA_EXE="/bin/micromamba"
+ENV MAMBA_EXE="/usr/local/bin/micromamba"
 ENV PATH=$MAMBA_ROOT_PREFIX/bin:$PATH
 ARG VERSION=1.5.8
 
 # For a non root user
-
 ARG MAMBA_USER=mambauser
 ARG MAMBA_USER_ID=57439
 ARG MAMBA_USER_GID=57439
@@ -30,7 +29,11 @@ RUN test "$TARGETARCH" = 'amd64' && export ARCH='64'; \
     test "$TARGETARCH" = 'arm64' && export ARCH='aarch64'; \
     test "$TARGETARCH" = 'ppc64le' && export ARCH='ppc64le'; \
     curl -L "https://micro.mamba.pm/api/micromamba/linux-${ARCH}/${VERSION}" | \
-    tar -xj -C "/tmp" "bin/micromamba"
+    tar -xj -C "/usr/local/bin" --strip-components=1 bin/micromamba && \
+    chmod +x /usr/local/bin/micromamba
+
+# Verify micromamba installation
+RUN if [ ! -f /usr/local/bin/micromamba ]; then echo "micromamba installation failed"; exit 1; fi
 
 # Create non-root user
 RUN addgroup --gid $MAMBA_USER_GID $MAMBA_USER && \
