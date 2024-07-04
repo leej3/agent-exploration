@@ -39,10 +39,12 @@ RUN if [ ! -f /usr/local/bin/micromamba ]; then echo "micromamba installation fa
 RUN addgroup --gid $MAMBA_USER_GID $MAMBA_USER && \
     adduser --uid $MAMBA_USER_ID --gid $MAMBA_USER_GID --disabled-password --gecos "" $MAMBA_USER
 
+# Copy the environment.yaml file
+COPY .docker/environment.yaml /tmp/environment.yaml
+
 RUN mkdir -p $MAMBA_ROOT_PREFIX && \
     $MAMBA_EXE shell init --shell bash --prefix $MAMBA_ROOT_PREFIX && \
-    $MAMBA_EXE create -y -p $MAMBA_ROOT_PREFIX/env && \
-    $MAMBA_EXE install -y -p $MAMBA_ROOT_PREFIX/env -c conda-forge python=3.9 && \
+    $MAMBA_EXE create -y -f /tmp/environment.yaml -p $MAMBA_ROOT_PREFIX/env && \
     $MAMBA_EXE clean --all --yes
 
 USER $MAMBA_USER

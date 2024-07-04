@@ -1,4 +1,4 @@
 #!/bin/bash
-eval "$(/bin/micromamba shell hook --shell bash)"
+eval "$(/usr/local/bin/micromamba shell hook --shell bash)"
 micromamba activate /opt/conda/env
 exec "$@"
