@@ -24,12 +24,15 @@ dependencies:
   - langchain-core
   - langchain-experimental
   - langchain-openai
+  - langchainhub
   - langsmith
+  - lxml
   - numpy
   - openai
   - pandas
   - pip
   - playwright
+  - playwright-python
   - pydantic
   - python-dateutil
   - pyyaml
